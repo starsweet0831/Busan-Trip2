@@ -3,271 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>釜山 10 人團手帳_全細節版</title>
+    <title>Busan Voyage Full App</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: "Microsoft JhengHei", sans-serif; background: #F8FAFC; padding-bottom: 85px; }
-        .page-header { background: #03C75A; color: white; padding: 18px; font-weight: bold; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .weather-banner { background: #E0F2FE; color: #0369A1; padding: 12px; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 8px; border-bottom: 2px solid #BAE6FD; }
-        .period-label { background: #FEF3C7; color: #92400E; padding: 6px 16px; font-weight: bold; border-left: 5px solid #F59E0B; margin: 15px 12px 5px 12px; font-size: 14px; }
-        .card { background: white; margin: 12px; border-radius: 16px; padding: 16px; border: 1px solid #E2E8F0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        .time-tag { color: #059669; font-weight: 800; font-size: 14px; margin-bottom: 4px; display: block; }
-        .act-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
-        .act-title { font-weight: 900; font-size: 17px; line-height: 1.4; color: #0F172A; flex: 1; }
-        .naver-link { background: #03C75A; color: white; padding: 8px 12px; border-radius: 12px; font-size: 11px; font-weight: bold; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
-        .memo-box { background: #F8FAFC; padding: 10px; border-radius: 10px; font-size: 12px; color: #475569; margin-top: 10px; border-left: 4px solid #CBD5E1; line-height: 1.6; }
-        .baby-warn { color: #DC2626; font-weight: 800; }
-        .tab-page { display: none; }
-        .tab-page.active { display: block; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; height: 75px; border-top: 1px solid #E2E8F0; z-index: 1000; padding-bottom: env(safe-area-inset-bottom); }
-        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #94A3B8; font-size: 11px; font-weight: bold; }
-        .nav-item.active { color: #03C75A; background: #F0FFF4; border-top: 4px solid #03C75A; }
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+        :root { --sea: #0077B6; --sky: #90E0EF; --coral: #FF7F50; --sand: #FAF3E0; --naver: #03C75A; }
+        body { font-family: 'Noto Sans TC', sans-serif; background: #F8FBFE; color: #334155; margin: 0; }
+        
+        /* App Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--sea), var(--sky));
+            padding: 50px 24px 30px; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px;
+            color: white; box-shadow: 0 10px 25px rgba(0,119,182,0.2); position: sticky; top: -10px; z-index: 100;
+        }
+
+        .weather-btn {
+            background: rgba(255,255,255,0.25); backdrop-filter: blur(10px); border-radius: 15px;
+            padding: 12px 18px; display: flex; justify-content: space-between; align-items: center;
+            margin-top: 15px; border: 1px solid rgba(255,255,255,0.3); text-decoration: none; color: white;
+        }
+
+        /* 分頁切換 */
+        .tab-page { display: none; padding: 20px 16px 150px; animation: slideUp 0.4s ease-out; }
+        .tab-page.active { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 卡片設計 (Card UI) */
+        .card { background: white; border-radius: 28px; padding: 20px; margin-bottom: 20px; box-shadow: 0 8px 16px rgba(144,224,239,0.15); border: 1px solid #EEF2F7; }
+        .time-label { font-family: 'Monaco', monospace; font-weight: 900; color: var(--sea); font-size: 16px; margin-bottom: 4px; display: block; }
+        .spot-title { font-size: 20px; font-weight: 900; color: #1E293B; line-height: 1.4; margin-bottom: 8px; }
+
+        /* 標籤分類 */
+        .tag { font-size: 11px; font-weight: 900; padding: 4px 12px; border-radius: 50px; display: inline-block; margin-bottom: 10px; margin-right: 5px; }
+        .tag-trans { background: #E0F2FE; color: #0369A1; }
+        .tag-eat { background: #FFEDD5; color: #D97706; }
+        .tag-spot { background: #DCFCE7; color: #166534; }
+        .tag-buy { background: #F3E8FF; color: #7E22CE; }
+
+        /* 詳細備註 */
+        .memo-box { font-size: 14px; color: #475569; line-height: 1.8; border-top: 1px solid #F1F5F9; padding-top: 12px; margin-top: 12px; }
+        .memo-li { display: flex; gap: 8px; margin-bottom: 6px; }
+        .memo-li i { color: #CBD5E0; margin-top: 5px; font-size: 12px; }
+
+        /* 姿姿親子與重要警示 */
+        .alert-box { background: var(--sand); border-radius: 20px; padding: 15px; margin-top: 15px; border-left: 6px solid var(--coral); color: #9A3412; font-size: 13.5px; }
+        .alert-box b { color: var(--coral); font-weight: 900; font-size: 14px; display: block; margin-bottom: 4px; }
+        .red-alert { border-left-color: #E11D48; background: #FFF1F2; color: #9F1239; }
+
+        /* Naver Map 按鈕 */
+        .map-btn {
+            background: var(--naver); color: white; padding: 10px 20px; border-radius: 16px;
+            font-size: 13px; font-weight: 800; display: inline-flex; align-items: center; gap: 8px;
+            margin-top: 15px; text-decoration: none; box-shadow: 0 4px 10px rgba(3,199,90,0.2);
+        }
+
+        /* 底部導航 */
+        nav {
+            position: fixed; bottom: 25px; left: 15px; right: 15px; background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(15px); height: 80px; border-radius: 30px; display: flex; align-items: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); border: 1px solid white; z-index: 1000;
+        }
+        .nav-link { flex: 1; display: flex; flex-direction: column; align-items: center; color: #A0AEC0; transition: 0.3s; }
+        .nav-link.active { color: var(--sea); }
+        .nav-link i { font-size: 24px; margin-bottom: 3px; }
+        .nav-link span { font-size: 11px; font-weight: 800; }
     </style>
 </head>
 <body>
 
+    <div class="app-header">
+        <h1 class="text-3xl font-black tracking-tight">姿姿釜山之旅</h1>
+        <p id="day-title" class="mt-1 font-bold opacity-80">2026.05.16 · 第一天 DAY 1</p>
+        <a href="https://weather.naver.com/today/08110530" target="_blank" class="weather-btn">
+            <span><i class="fa-solid fa-cloud-sun mr-2"></i>即時氣象：韓國官方預報</span>
+            <i class="fa-solid fa-chevron-right text-xs"></i>
+        </a>
+    </div>
+
     <div id="day1" class="tab-page active">
-        <div class="page-header">DAY 1：5/16 (六) 桃園 ➜ 釜山 ➜ 西面</div>
-        <div class="weather-banner"><i class="fa-solid fa-cloud-sun"></i> 14°C - 22°C (晴時多雲)</div>
-        <div class="period-label">上午：出發與飛行</div>
-        <div class="card"><span class="time-tag">05:00</span><div class="act-title">桃園機場 T1 集合</div></div>
-        <div class="card"><span class="time-tag">05:00-07:15</span><div class="act-title">航空公司報到、安檢、稅關</div><div class="memo-box"><span class="baby-warn">👶 注意：</span>確認推車托運細節、備齊奶粉。</div></div>
-        <div class="card"><span class="time-tag">07:15-11:15</span><div class="act-title">飛往釜山 (BX794)</div></div>
         <div class="card">
-            <span class="time-tag">11:15-13:15</span>
-            <div class="act-row">
-                <div class="act-title">金海機場 ➜ 民宿 (房東接送)</div>
-                <a href="https://naver.me/G99N4p4n" class="naver-link">NAVER MAP</a>
+            <span class="time-label">05:00 - 07:15</span>
+            <div class="spot-title">桃園機場 T1 集合 ➔ 釜山航空</div>
+            <span class="tag tag-trans">班機 BX794</span>
+            <div class="memo-box">
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>辦理航空公司報到、行李託運。</div>
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>通過安檢及稅關查驗，準備登機。</div>
             </div>
-            <div class="memo-box">房東大車接送 10 人，車程約 2 小時。</div>
-        </div>
-        <div class="period-label">下午：西面行程</div>
-        <div class="card">
-            <span class="time-tag">13:15-14:00</span>
-            <div class="act-row">
-                <div class="act-title">K-Guesthouse 放行李</div>
-                <a href="https://naver.me/G87WJmOn" class="naver-link">NAVER MAP</a>
-            </div>
-            <div class="memo-box">📍 부산 중구 광복로 85번길 5-5 <br><span class="baby-warn">👶 備註：</span>可在此餵奶、更換推車。</div>
-        </div>
-        <div class="card">
-            <span class="time-tag">14:30</span>
-            <div class="act-row">
-                <div class="act-title">西面站老奶奶(那英)換錢所</div>
-                <a href="https://naver.me/FfMWH8jY" class="naver-link">NAVER MAP</a>
-            </div>
-            <div class="memo-box">搭乘地鐵 1 號線(南浦 ➜ 西面)。</div>
-        </div>
-        <div class="card">
-            <span class="time-tag">16:00</span>
-            <div class="act-row">
-                <div class="act-title">83 獬豸 (烤肉)</div>
-                <a href="https://naver.me/FIgdNRgb" class="naver-link">NAVER MAP</a>
-            </div>
-            <div class="memo-box">使用 CATCHTABLE 預約或現場抽號碼牌。</div>
-        </div>
-        <div class="card">
-            <span class="time-tag">18:00</span>
-            <div class="act-row">
-                <div class="act-title">西面逛街 (樂天/藥妝)</div>
-                <a href="https://naver.me/FHYvH0Y5" class="naver-link">NAVER MAP</a>
+            <div class="alert-box">
+                <b>🍼 姿姿親子備註</b>
+                確認嬰兒推車可在登機口託運；隨身備齊奶粉、奶嘴及安撫玩具。
             </div>
         </div>
+
         <div class="card">
-            <span class="time-tag">20:30</span>
-            <div class="act-row">
-                <div class="act-title">막창꽃필무렵 (烤腸)</div>
-                <a href="https://naver.me/xzLqP8yB" class="naver-link">NAVER MAP</a>
+            <span class="time-label">11:15 - 13:15</span>
+            <div class="spot-title">抵達金海機場 ➔ 入住民宿</div>
+            <a href="https://naver.me/G87WJmOn" target="_blank" class="map-btn"><i class="fa-solid fa-house"></i> K-Guesthouse Premium 1</a>
+            <div class="memo-box">
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>入境查驗後聯繫房東，搭乘 10 人大車前往民宿。</div>
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>辦理行李寄放（Check-in 前）。</div>
+            </div>
+            <div class="alert-box">
+                <b>👶 親子抵達動作</b>
+                1. 優先幫姿姿餵奶。<br>2. 將機場輕便推車更換為「西面/南浦商圈大推車」。
             </div>
         </div>
-        <div class="card"><span class="time-tag">22:00</span><div class="act-title">搭地鐵回南浦民宿</div></div>
+
+        <div class="card">
+            <span class="time-label">14:30 - 16:00</span>
+            <div class="spot-title">那英換錢 ➔ 西面站</div>
+            <a href="https://naver.me/FfMWH8jY" target="_blank" class="map-btn"><i class="fa-solid fa-coins"></i> 老奶奶(那英)換錢所</a>
+            <div class="memo-box">
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>地鐵 1 號線：南浦站 ➔ 西面站 (7 號出口)。</div>
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>此處匯率優，換好後準備逛街。</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <span class="time-label">16:00 - 22:00</span>
+            <div class="spot-title">西面晚餐與商圈購物</div>
+            <a href="https://naver.me/FIgdNRgb" target="_blank" class="map-btn"><i class="fa-solid fa-utensils"></i> 83 獬豸烤肉</a>
+            <div class="memo-box">
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>晚餐：83 獬豸烤肉（必吃豬肉，需 CATCHTABLE 取號分組）。</div>
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>商圈：樂天免稅店、西面地下街、Olive Young、NC 百貨。</div>
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>宵夜：烤腸專賣店 (막창꽃필무렵)。</div>
+            </div>
+        </div>
     </div>
 
     <div id="day2" class="tab-page">
-        <div class="page-header">DAY 2：5/17 (日) 南浦 ➜ 新世界 ➜ 影島</div>
-        <div class="weather-banner"><i class="fa-solid fa-sun text-yellow-500"></i> 15°C - 23°C (晴天)</div>
-        <div class="period-label">上午：在地市場</div>
         <div class="card">
-            <span class="time-tag">09:45</span>
-            <div class="act-row">
-                <div class="act-title">札嘎其市場 (帝王蟹/生魚片)</div>
-                <a href="https://naver.me/F0K6K8s6" class="naver-link">NAVER MAP</a>
+            <span class="time-label">09:45 - 12:00</span>
+            <div class="spot-title">札嘎其市場 ➔ 富平市場</div>
+            <a href="https://naver.me/F0K6K8s6" target="_blank" class="map-btn"><i class="fa-solid fa-shrimp"></i> 札嘎其市場</a>
+            <div class="alert-box red-alert">
+                <b>🚫 嚴禁推車！姿姿安全警示</b>
+                市場地板濕滑擁擠，<span class="font-black">整段行程禁用推車</span>，姿姿必須全程改用「揹巾」。
             </div>
-            <div class="memo-box"><span class="baby-warn">👶 備註：</span>建議揹巾，地面濕滑且走道窄。</div>
-        </div>
-        <div class="card">
-            <span class="time-tag">11:00</span>
-            <div class="act-row">
-                <div class="act-title">富平罐頭市場 (買棉被)</div>
-                <a href="https://naver.me/xvE57Rz2" class="naver-link">NAVER MAP</a>
+            <div class="memo-box">
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>午餐：挑選帝王蟹及生魚片料理。</div>
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>採購：富平市場買韓國棉被。</div>
+                <div class="memo-li" style="color:var(--coral); font-weight:800;"><i class="fa-solid fa-box-open"></i> 棉被備註：買完體積龐大，務必先由壯丁搬回民宿或先送回民宿。</div>
             </div>
         </div>
+
         <div class="card">
-            <span class="time-tag">12:00</span>
-            <div class="act-row">
-                <div class="act-title">午餐：密陽加豬肉湯飯</div>
-                <a href="https://naver.me/F7CpNq2O" class="naver-link">NAVER MAP</a>
+            <span class="time-label">12:00 - 15:00</span>
+            <div class="spot-title">午餐 ➔ BIFF 廣場</div>
+            <div class="memo-box">
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>密陽加豬肉湯飯、BIFF 廣場黑糖餅。</div>
             </div>
         </div>
+
         <div class="card">
-            <span class="time-tag">13:30</span>
-            <div class="act-row">
-                <div class="act-title">BIFF 廣場吃糖餅</div>
-                <a href="https://naver.me/G7K6iFpP" class="naver-link">NAVER MAP</a>
+            <span class="time-label">15:00 - 21:00</span>
+            <div class="spot-title">Spa Land ➔ 樂天超市</div>
+            <a href="https://naver.me/xXPrH4Z8" target="_blank" class="map-btn"><i class="fa-solid fa-spa"></i> 新世界 Spa Land</a>
+            <div class="memo-box">
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>新世界五星級汗蒸幕體驗。</div>
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>採買：樂天超市 (光復店) 伴手禮總補貨。</div>
             </div>
-            <div class="memo-box">📍 建議買完棉被先放回民宿再出發。</div>
-        </div>
-        <div class="period-label">下午：百貨與汗蒸幕</div>
-        <div class="card">
-            <span class="time-tag">15:00</span>
-            <div class="act-row">
-                <div class="act-title">新世界百貨 / Spa Land</div>
-                <a href="https://naver.me/xXPrH4Z8" class="naver-link">NAVER MAP</a>
-            </div>
-            <div class="memo-box">✨ 備註：內有哺乳室、尿布台，推車可推進。</div>
-        </div>
-        <div class="card">
-            <span class="time-tag">19:30</span>
-            <div class="act-row">
-                <div class="act-title">晚餐：南浦排骨</div>
-                <a href="https://naver.me/x0ahvV5G" class="naver-link">NAVER MAP</a>
-            </div>
-        </div>
-        <div class="card">
-            <span class="time-tag">21:00</span>
-            <div class="act-row">
-                <div class="act-title">樂天超市 (光復店)</div>
-                <a href="https://naver.me/5OnN599P" class="naver-link">NAVER MAP</a>
+            <div class="alert-box">
+                <b>🏬 育嬰設施</b>
+                新世界百貨哺乳室完善，適合幫姿姿換尿布與休息。
             </div>
         </div>
     </div>
 
     <div id="day3" class="tab-page">
-        <div class="page-header">DAY 3：5/18 (一) 海雲台 ➜ 青沙浦</div>
-        <div class="weather-banner"><i class="fa-solid fa-wind text-blue-400"></i> 16°C - 21°C (多雲有風)</div>
-        <div class="period-label">上午：包車行程</div>
         <div class="card">
-            <span class="time-tag">09:30</span>
-            <div class="act-row">
-                <div class="act-title">海雲台早餐：大海鮑魚粥</div>
-                <a href="https://naver.me/5S9WJz0D" class="naver-link">NAVER MAP</a>
+            <span class="time-label">09:30 - 11:30</span>
+            <div class="spot-title">海雲台早餐 ➔ 尾浦站</div>
+            <a href="https://naver.me/5S9WJz0D" target="_blank" class="map-btn"><i class="fa-solid fa-bowl-food"></i> 大海鮑魚粥</a>
+            <div class="memo-box">
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>早餐：鮑魚粥 ➔ MUMU Bakery。</div>
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>搭乘一日包車前往藍線公園。</div>
             </div>
         </div>
+
         <div class="card">
-            <span class="time-tag">10:30</span>
-            <div class="act-row">
-                <div class="act-title">MUMU Bakery 咖啡廳</div>
-                <a href="https://naver.me/FY7W7h7M" class="naver-link">NAVER MAP</a>
+            <span class="time-label">11:30 - 14:00</span>
+            <div class="spot-title">天空膠囊列車 (尾浦)</div>
+            <a href="https://naver.me/5B1r9Y8W" target="_blank" class="map-btn"><i class="fa-solid fa-train"></i> 尾浦站入口</a>
+            <div class="memo-box">
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>預約 11:30 場次。10 人需拆分 3 台車乘坐。</div>
+            </div>
+            <div class="alert-box">
+                <b>🚋 列車規定</b>
+                車廂內部窄小，姿姿推車須「完全收折摺疊」後方可上車。
             </div>
         </div>
+
         <div class="card">
-            <span class="time-tag">11:30</span>
-            <div class="act-row">
-                <div class="act-title">天空膠囊列車 (尾浦站)</div>
-                <a href="https://naver.me/5B1r9Y8W" class="naver-link">NAVER MAP</a>
-            </div>
-            <div class="memo-box">📍 10 人分三車。推車需收折入內。</div>
-        </div>
-        <div class="period-label">下午：動態行程</div>
-        <div class="card">
-            <span class="time-tag">14:30</span>
-            <div class="act-row">
-                <div class="act-title">Skyline Luge 滑車</div>
-                <a href="https://naver.me/IxDQaK99" class="naver-link">NAVER MAP</a>
-            </div>
-            <div class="memo-box"><span class="baby-warn">👶 重要：</span>姿姿不可乘坐，成人輪流於休息區照顧。</div>
-        </div>
-        <div class="card">
-            <span class="time-tag">15:45</span>
-            <div class="act-row">
-                <div class="act-title">釜山樂天世界</div>
-                <a href="https://naver.me/xR6hW2P7" class="naver-link">NAVER MAP</a>
+            <span class="time-label">14:30 - 15:45</span>
+            <div class="spot-title">Skyline Luge 滑車</div>
+            <a href="https://naver.me/IxDQaK99" target="_blank" class="map-btn"><i class="fa-solid fa-helmet-safety"></i> 斜坡滑車定位</a>
+            <div class="alert-box" style="border-left-color:var(--sea); background:#EBF8FF;">
+                <b>🤝 成人分組輪顧小孩</b>
+                姿姿不可坐滑車。成人採 5/5 分組，A 組玩滑車時 B 組在休息區陪姿姿，隨後交換。
             </div>
         </div>
+
         <div class="card">
-            <span class="time-tag">20:00</span>
-            <div class="act-row">
-                <div class="act-title">廣安里晚餐：Dasoni 韓牛</div>
-                <a href="https://naver.me/FfMWH8jY" class="naver-link">NAVER MAP</a>
+            <span class="time-label">15:45 - 20:00</span>
+            <div class="spot-title">樂天世界 ➔ 廣安里韓牛</div>
+            <div class="memo-box">
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>觀看 15:45 花車大遊行表演。</div>
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>晚餐：廣安里 Dasoni 韓牛。</div>
             </div>
         </div>
     </div>
 
     <div id="day4" class="tab-page">
-        <div class="page-header">DAY 4：5/19 (二) 甘川 ➜ 松島 ➜ 影島</div>
-        <div class="weather-banner"><i class="fa-solid fa-sun text-yellow-500"></i> 17°C - 24°C (晴)</div>
-        <div class="period-label">上午：經典釜山</div>
         <div class="card">
-            <span class="time-tag">09:30</span>
-            <div class="act-row">
-                <div class="act-title">甘川洞文化村</div>
-                <a href="https://naver.me/FXZmyGQ6" class="naver-link">NAVER MAP</a>
+            <span class="time-label">09:30 - 13:00</span>
+            <div class="spot-title">甘川洞文化村</div>
+            <a href="https://naver.me/FXZmyGQ6" target="_blank" class="map-btn"><i class="fa-solid fa-camera"></i> 文化村導航</a>
+            <div class="alert-box red-alert">
+                <b>🚨 姿姿最高警告！</b>
+                此地全為階梯與抖坡。推車完全無法行走，<span class="font-black">全程必須使用「揹巾」</span>，推車留置包車上。
             </div>
-            <div class="memo-box">📍 需購買集章地圖、體驗手翻書。 <br><span class="baby-warn">👶 叮嚀：</span>階梯極多，**必備揹巾**。</div>
-        </div>
-        <div class="period-label">下午：海景行程</div>
-        <div class="card">
-            <span class="time-tag">13:45</span>
-            <div class="act-row">
-                <div class="act-title">松島海上纜車 / 龍宮雲橋</div>
-                <a href="https://naver.me/F7CpNq2O" class="naver-link">NAVER MAP</a>
+            <div class="memo-box">
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>買地圖集章、製作手翻書影像、拍小王子。</div>
             </div>
         </div>
+
         <div class="card">
-            <span class="time-tag">15:15</span>
-            <div class="act-row">
-                <div class="act-title">白淺灘文化村</div>
-                <a href="https://naver.me/5vI9z3W9" class="naver-link">NAVER MAP</a>
+            <span class="time-label">13:45 - 18:00</span>
+            <div class="spot-title">松島纜車 ➔ 影島海女村</div>
+            <div class="flex gap-2">
+                <a href="https://naver.me/5nccl228" target="_blank" class="map-btn"><i class="fa-solid fa-cable-car"></i> 松島纜車</a>
+                <a href="https://naver.me/GwpmX6tN" target="_blank" class="map-btn"><i class="fa-solid fa-water"></i> 影島海女村</a>
             </div>
-        </div>
-        <div class="card">
-            <span class="time-tag">17:00</span>
-            <div class="act-row">
-                <div class="act-title">影島海女村 (戶外海鮮)</div>
-                <a href="https://naver.me/GwpmX6tN" class="naver-link">NAVER MAP</a>
+            <div class="memo-box">
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>松島龍宮雲橋、白淺灘文化村咖啡廳。</div>
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>晚餐：影島海女村戶外礁岩海鮮。</div>
             </div>
-            <div class="memo-box">📍 戶外礁岩區，注意推車移動安全。</div>
         </div>
     </div>
 
     <div id="day5" class="tab-page">
-        <div class="page-header">DAY 5：5/20 (三) 南浦 ➜ 機場 ➜ 桃園</div>
-        <div class="weather-banner"><i class="fa-solid fa-cloud-rain"></i> 18°C - 22°C (陣雨)</div>
-        <div class="period-label">最後衝刺</div>
         <div class="card">
-            <span class="time-tag">11:30</span>
-            <div class="act-row">
-                <div class="act-title">最後午餐：Tonshou 豚笑豬排</div>
-                <a href="https://naver.me/xR6hW2P7" class="naver-link">NAVER MAP</a>
+            <span class="time-label">11:30 - 15:00</span>
+            <div class="spot-title">Tonshou 豚笑 ➔ 南浦採買</div>
+            <a href="https://naver.me/xR6hW2P7" target="_blank" class="map-btn"><i class="fa-solid fa-utensils"></i> 豚笑豬排</a>
+            <div class="memo-box">
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>11:30 豬排：分組提前現場取號排隊。</div>
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>最後整理：藥妝補貨、**壓縮棉被行李**以節省空間。</div>
             </div>
-            <div class="memo-box">📍 位於南浦商圈，餐後可補買藥妝。</div>
         </div>
-        <div class="card">
-            <span class="time-tag">17:00</span>
-            <div class="act-title">包車出發往金海機場</div>
-        </div>
-        <div class="card" style="background:#FEE2E2;">
-            <span class="time-tag">20:00</span>
-            <div class="act-title">BX793 起飛回台</div>
+
+        <div class="card" style="border: 2px solid var(--coral);">
+            <span class="time-label">17:00 - 20:00</span>
+            <div class="spot-title">包車機場送機 ➔ 返台</div>
+            <div class="memo-box">
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>17:00 民宿門口準時發車，不可遲到。</div>
+                <div class="memo-li"><i class="fa-solid fa-circle"></i>20:00 班機 BX793 準時回台。</div>
+            </div>
         </div>
     </div>
 
     <nav>
-        <button onclick="pg('day1')" id="n1" class="nav-item active"><i class="fa-solid fa-calendar-1 text-lg"></i><span>D1</span></button>
-        <button onclick="pg('day2')" id="n2" class="nav-item"><i class="fa-solid fa-calendar-2 text-lg"></i><span>D2</span></button>
-        <button onclick="pg('day3')" id="n3" class="nav-item"><i class="fa-solid fa-calendar-3 text-lg"></i><span>D3</span></button>
-        <button onclick="pg('day4')" id="n4" class="nav-item"><i class="fa-solid fa-calendar-4 text-lg"></i><span>D4</span></button>
-        <button onclick="pg('day5')" id="n5" class="nav-item"><i class="fa-solid fa-plane-up text-lg"></i><span>D5</span></button>
+        <button onclick="st(1)" id="b1" class="nav-link active"><i class="fa-solid fa-umbrella-beach"></i><span>DAY 1</span></button>
+        <button onclick="st(2)" id="b2" class="nav-link"><i class="fa-solid fa-store"></i><span>DAY 2</span></button>
+        <button onclick="st(3)" id="b3" class="nav-link"><i class="fa-solid fa-train"></i><span>DAY 3</span></button>
+        <button onclick="st(4)" id="b4" class="nav-link"><i class="fa-solid fa-camera-retro"></i><span>DAY 4</span></button>
+        <button onclick="st(5)" id="b5" class="nav-link"><i class="fa-solid fa-plane"></i><span>DAY 5</span></button>
     </nav>
 
     <script>
-        function pg(id) {
+        function st(n) {
             document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-            document.getElementById('n' + id.slice(-1)).classList.add('active');
+            document.getElementById('day' + n).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.getElementById('b' + n).classList.add('active');
+            
+            const titles = ["第一天 DAY 1", "第二天 DAY 2", "第三天 DAY 3", "第四天 DAY 4", "第五天 DAY 5"];
+            document.getElementById('day-title').innerText = "2026.05." + (15+n) + " · " + titles[n-1];
             window.scrollTo(0,0);
         }
     </script>
