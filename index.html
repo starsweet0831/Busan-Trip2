@@ -3,225 +3,354 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>釜山旅遊隨身小幫手</title>
+    <title>釜山旅遊手帳完整版</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --sea-blue: #4A90E2; --coral-orange: #FF7F50; --journal-bg: #FDFBF7; }
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--journal-bg); color: #444; overflow-x: hidden; }
-        .handwriting { font-family: 'Zhi Mang Xing', cursive; }
+        /* 統一使用微軟正黑體 */
+        body { 
+            font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif; 
+            background-color: #FDFBF7; 
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* 顏色定義 */
+        :root {
+            --sea-blue: #4A90E2;    /* 海藍 */
+            --coral-orange: #FF7F50; /* 珊瑚橘 */
+            --butter-yellow: #FFF9E3; /* 鵝黃 */
+        }
+
+        /* 手帳風卡片 */
+        .journal-card {
+            background: #FFF;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border: 1px solid #EEE;
+            margin-bottom: 20px;
+            padding: 16px;
+            position: relative;
+        }
+
+        /* 側邊裝飾條 */
+        .card-accent {
+            position: absolute;
+            left: 0;
+            top: 20px;
+            bottom: 20px;
+            width: 5px;
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* 時間軸線條 */
+        .timeline-container {
+            border-left: 2px dashed #CBD5E1;
+            margin-left: 0.75rem;
+            padding-left: 1.25rem;
+            position: relative;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -10px;
+            top: 10px;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border: 3px solid var(--sea-blue);
+            border-radius: 50%;
+        }
+
+        /* 標籤樣式 */
+        .tag { font-size: 11px; padding: 2px 8px; border-radius: 6px; font-weight: bold; margin-right: 4px; }
+        .tag-parent { background: #FFF9E3; color: #B7791F; border: 1px solid #F6E05E; }
+        .tag-pass { background: #E0F2F1; color: #00897B; border: 1px solid #B2DFDB; }
+        .tag-must { background: #FFF5F5; color: #C53030; border: 1px solid #FEB2B2; }
+
+        .nav-btn {
+            background: var(--sea-blue);
+            color: white;
+            border-radius: 10px;
+            padding: 5px 10px;
+            font-size: 11px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(74,144,226,0.3);
+        }
+
         .tab-content { display: none; padding-bottom: 120px; }
         .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .journal-card { background: white; border-radius: 20px; border: 2px solid #EEE; box-shadow: 4px 4px 0px #EEE; position: relative; margin-bottom: 24px; transition: 0.2s; }
-        .journal-card:active { transform: scale(0.98); }
-        .journal-card::before { content: ""; position: absolute; top: 0; left: 0; width: 6px; height: 100%; border-radius: 20px 0 0 20px; }
-        .day-title { border-bottom: 2px dashed #DDD; padding-bottom: 10px; margin-bottom: 20px; }
-        .nav-btn { background: var(--sea-blue); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3); }
-        .timeline-item { position: relative; padding-left: 28px; border-left: 2px dashed #CCC; margin-left: 10px; }
-        .timeline-dot { position: absolute; left: -9px; top: 8px; width: 16px; height: 16px; background: white; border: 3px solid var(--sea-blue); border-radius: 50%; }
-        .badge { font-size: 10px; font-weight: bold; padding: 2px 8px; border-radius: 12px; margin-right: 4px; }
     </style>
 </head>
 <body>
 
-    <header class="p-6 bg-[#4A90E2] text-white rounded-b-[40px] shadow-lg sticky top-0 z-50">
-        <div class="flex justify-between items-end">
-            <div>
-                <h1 class="text-3xl font-bold handwriting">Busan Trip 🇰🇷</h1>
-                <p class="text-xs opacity-90 mt-1">2026.05.16 - 05.20</p>
-            </div>
-            <div class="text-right">
-                <p class="text-[10px] tracking-widest opacity-80 uppercase">Today's Weather</p>
-                <div class="text-2xl font-bold">☀️ 22°C</div>
-            </div>
-        </div>
+    <header class="p-6 bg-gradient-to-r from-[#4A90E2] to-[#67B2FF] text-white rounded-b-[35px] shadow-lg sticky top-0 z-50">
+        <h1 class="text-2xl font-black italic">釜山．姿姿旅遊手帳 🌊</h1>
+        <p class="text-xs opacity-90 mt-1">2026.05.16 - 05.20 | 全行程詳細版</p>
     </header>
 
-    <main id="itinerary" class="tab-content active p-4 mt-2">
+    <main id="itinerary" class="tab-content active p-5">
         
-        <div class="day-section mb-10">
-            <h2 class="day-title text-2xl font-bold text-[#FF7F50] handwriting ml-2 italic">Day 1 西面熱鬧夜</h2>
-            
-            <div class="timeline-item">
+        <div class="mb-10">
+            <h2 class="text-xl font-bold text-[#FF7F50] border-b-4 border-[#FFF38E] inline-block mb-6 italic">Day 1：5/16 (六) 桃園 ➔ 西面</h2>
+            <div class="timeline-container">
                 <div class="timeline-dot"></div>
-                <div class="journal-card p-4" style="border-left: 6px solid #4A90E2;">
-                    <div class="flex justify-between items-start">
-                        <span class="text-[10px] font-bold text-blue-500 uppercase tracking-tighter">11:15 - 13:15 機場抵達</span>
-                        <a href="nmap://search?query=Gwangbok-ro+85beon-gil" class="nav-btn"><i class="fa-solid fa-car-side"></i></a>
-                    </div>
-                    <h3 class="font-bold text-lg">民宿 check-in (房東接送)</h3>
-                    <p class="text-xs text-gray-500 mt-1">📍 5-5 Gwangbok-ro 85beon-gil </p>
-                    <div class="mt-2 text-[11px] bg-yellow-50 p-2 border-l-4 border-yellow-400">
-                        👶 **親子攻略**：車程長，姿姿可補眠/餵奶 。
+                <div class="journal-card">
+                    <div class="card-accent bg-[#4A90E2]"></div>
+                    <p class="text-[10px] font-bold text-blue-500 uppercase tracking-widest">05:00 - 11:15</p>
+                    <h3 class="font-bold text-base">桃園機場集合 ➔ 飛釜山</h3>
+                    <p class="text-xs mt-2 text-gray-600">07:15 起飛。停留時間：報到安檢 (2h15m) + 飛行 (4h) </p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="tag tag-parent">👶 推車或揹巾注意 / 可補眠</span>
                     </div>
                 </div>
-            </div>
 
-            <div class="timeline-item">
                 <div class="timeline-dot"></div>
-                <div class="journal-card p-4" style="border-left: 6px solid #FF7F50;">
-                    <div class="flex justify-between items-start">
-                        <span class="badge bg-red-100 text-red-600">必吃美食</span>
-                        <a href="nmap://search?query=83해치" class="nav-btn"><i class="fa-solid fa-utensils"></i></a>
+                <div class="journal-card">
+                    <div class="card-accent bg-[#FF7F50]"></div>
+                    <p class="text-[10px] font-bold text-orange-500 uppercase tracking-widest">11:15 - 14:00</p>
+                    <h3 class="font-bold text-base">機場 ➔ 民宿放行李</h3>
+                    <p class="text-xs mt-2 text-gray-600">🚐 房東接送 (2h)。停留：45m </p>
+                    <p class="text-xs mt-1 text-gray-500 font-bold underline">📍 5-5 Gwangbok-ro 85beon-gil</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="tag tag-parent">👶 可餵奶 / 推車 / 車程長可補眠</span>
                     </div>
-                    <h3 class="font-bold text-lg mt-1 underline decoration-red-200 decoration-2">83 獬豸 (83해치) 烤肉</h3>
-                    <p class="text-xs text-gray-600 mt-2 italic">「釜山西面最強烤肉，推薦熟成五花肉」</p>
-                    <p class="text-xs font-bold text-blue-600 mt-1">💡 攻略：下午16:00開，建議用 CATCHTABLE 排隊 。</p>
+                    <div class="mt-3"><a href="nmap://search?query=Gwangbok-ro+85beon-gil" class="nav-btn"><i class="fa-solid fa-car"></i> Naver Map</a></div>
+                </div>
+
+                <div class="timeline-dot"></div>
+                <div class="journal-card">
+                    <div class="card-accent bg-[#4A90E2]"></div>
+                    <p class="text-[10px] font-bold text-blue-500 uppercase tracking-widest">14:30 - 16:00</p>
+                    <h3 class="font-bold text-base">西面站：換錢與 Shake Shack</h3>
+                    <p class="text-xs mt-2 text-gray-600">🚇 地鐵1號線。換錢所停留 (30m) / 外帶 (20m) </p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="tag tag-parent">👶 可推車 / 可坐椅子</span>
+                    </div>
+                    <div class="mt-3"><a href="nmap://search?query=서면+할머니환전" class="nav-btn"><i class="fa-solid fa-location-arrow"></i> 換錢所導航</a></div>
+                </div>
+
+                <div class="timeline-dot"></div>
+                <div class="journal-card">
+                    <div class="card-accent bg-red-500"></div>
+                    <p class="text-[10px] font-bold text-red-500 uppercase tracking-widest">16:00 - 22:00</p>
+                    <h3 class="font-bold text-base">西面晚餐與逛街</h3>
+                    <div class="mt-2 space-y-2">
+                        <div class="bg-red-50 p-2 rounded-lg">
+                            <span class="tag tag-must">🔥 83 獬豸 (烤肉)</span>
+                            <p class="text-[10px] mt-1 italic text-red-700">停留：1-1.5h。先排隊或用 CATCHTABLE </p>
+                        </div>
+                        <p class="text-xs text-gray-600">晚上：西面逛街 (2h) ➔ 烤腸 (막창꽃필무렵) (1h) </p>
+                        <p class="text-xs text-gray-600 italic">返回民宿：搭1號線至 Nampo 南浦站步行10分鐘 </p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="day-section mb-10">
-            <h2 class="day-title text-2xl font-bold text-[#FF7F50] handwriting ml-2 italic">Day 2 南浦與新世界</h2>
-            <div class="timeline-item">
+        <div class="mb-10">
+            <h2 class="text-xl font-bold text-[#FF7F50] border-b-4 border-[#FFF38E] inline-block mb-6 italic">Day 2：5/17 (日) 南浦 & 新世界</h2>
+            <div class="timeline-container">
                 <div class="timeline-dot"></div>
-                <div class="journal-card p-4">
-                    <div class="flex justify-between items-start">
-                        <span class="badge bg-orange-100 text-orange-600">市場尋寶</span>
-                        <a href="nmap://search?query=자갈치시장" class="nav-btn"><i class="fa-solid fa-store"></i></a>
+                <div class="journal-card">
+                    <div class="card-accent bg-[#4A90E2]"></div>
+                    <p class="text-[10px] font-bold text-blue-500 uppercase tracking-widest">09:30 - 12:00</p>
+                    <h3 class="font-bold text-base">市場探索之旅</h3>
+                    <p class="text-xs mt-2">🚕 札嘎其市場 + 帝王蟹 (1h) ➔ 步行至罐頭市場買棉被 (40m) [cite: 2]</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="tag tag-parent">👶 建議揹巾 (地面濕滑) / 推車可行</span>
                     </div>
-                    <h3 class="font-bold text-lg mt-1">札嘎其市場 + 帝王蟹</h3>
-                    <p class="text-xs text-red-500 font-bold mt-1 italic">👶 揹巾必備：地面濕滑注意 [cite: 2]。</p>
+                    <div class="mt-3"><a href="nmap://search?query=자갈치시장" class="nav-btn"><i class="fa-solid fa-location-arrow"></i> 札嘎其導航</a></div>
                 </div>
-            </div>
-            <div class="timeline-item">
+
                 <div class="timeline-dot"></div>
-                <div class="journal-card p-4">
-                    <div class="flex justify-between items-start">
-                        <span class="badge bg-purple-100 text-purple-600">購物/汗蒸幕</span>
-                        <a href="nmap://search?query=신세계백화점+센텀시티" class="nav-btn"><i class="fa-solid fa-bag-shopping"></i></a>
+                <div class="journal-card">
+                    <div class="card-accent bg-red-500"></div>
+                    <p class="text-[10px] font-bold text-red-500 uppercase tracking-widest">12:00 - 15:00</p>
+                    <h3 class="font-bold text-base">午餐：密陽加豬肉湯飯</h3>
+                    <p class="text-xs mt-2 text-gray-600">停留：1h。餐後至 BIFF 廣場吃糖餅 & 逛街 (1h) [cite: 2]</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="tag tag-parent">👶 可坐椅子 / 可推車</span>
                     </div>
-                    <h3 class="font-bold text-lg mt-1">新世界百貨 Centum City</h3>
-                    <p class="text-xs text-gray-500">哺乳室、電梯齊全，對幼童極度友善 [cite: 2]。</p>
+                </div>
+
+                <div class="timeline-dot"></div>
+                <div class="journal-card">
+                    <div class="card-accent bg-purple-500"></div>
+                    <p class="text-[10px] font-bold text-purple-500 uppercase tracking-widest">15:00 - 22:30</p>
+                    <h3 class="font-bold text-base">新世界百貨 ➔ 樂天超市</h3>
+                    <p class="text-xs mt-2 text-gray-600">🚕 新世界 Centum City + 汗蒸幕 (4h) ➔ 樂天超市光復店 (30m) [cite: 2]</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="tag tag-parent">👶 親子友善、哺乳室電梯齊全 / 可抱姿姿</span>
+                    </div>
+                    <div class="bg-gray-50 p-2 rounded-lg mt-3 text-[10px] text-gray-500">
+                        🍴 晚餐：南浦排骨烤肉 (1h) / 宵夜：橋村炸雞 [cite: 2]
+                    </div>
+                    <div class="mt-3"><a href="nmap://search?query=신세계백화점+센텀시티점" class="nav-btn"><i class="fa-solid fa-location-arrow"></i> 新世界導航</a></div>
                 </div>
             </div>
         </div>
 
-        <div class="day-section mb-10">
-            <h2 class="day-title text-2xl font-bold text-[#FF7F50] handwriting ml-2 italic">Day 3 海雲台東釜山 (🚐)</h2>
-            <div class="timeline-item">
+        <div class="mb-10">
+            <h2 class="text-xl font-bold text-[#FF7F50] border-b-4 border-[#FFF38E] inline-block mb-6 italic">Day 3：5/18 (一) 包車 ➔ 東釜山</h2>
+            <div class="timeline-container">
                 <div class="timeline-dot"></div>
-                <div class="journal-card p-4" style="border-left: 6px solid #4A90E2; background-color: #F0F7FF;">
-                    <div class="flex justify-between">
-                        <span class="badge bg-blue-500 text-white italic">預約行程 / 11:30</span>
-                        <a href="nmap://search?query=해운대블루라인파크+미포정거장" class="nav-btn"><i class="fa-solid fa-train-subway"></i></a>
+                <div class="journal-card">
+                    <div class="card-accent bg-[#4A90E2]"></div>
+                    <p class="text-[10px] font-bold text-blue-500 uppercase tracking-widest">09:00 - 11:30</p>
+                    <h3 class="font-bold text-base">海雲台早餐與伴手禮</h3>
+                    <p class="text-xs mt-2">🚐 大海鮑魚粥 (1h) ➔ MUMU Bakery (30m) ➔ BADA SAND (20-30m) </p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="tag tag-parent">👶 可坐椅子 / 可推車</span>
+                        <span class="tag tag-must">🎁 伴手禮：Busan BADA SAND</span>
                     </div>
-                    <h3 class="font-bold text-lg mt-1">天空膠囊列車 (尾浦➔青沙浦)</h3>
-                    <p class="text-xs font-bold text-orange-600 mt-1">🎁 必買：Busan BADA SAND 伴手禮 。</p>
                 </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="journal-card p-4">
-                    <div class="flex justify-between">
-                        <span class="badge bg-green-100 text-green-600">韓牛烤肉 / 20:00</span>
-                        <a href="nmap://search?query=다소니" class="nav-btn"><i class="fa-solid fa-utensils"></i></a>
+
+                <div class="timeline-dot" style="border-color: #FF7F50;"></div>
+                <div class="journal-card bg-orange-50 border-orange-200">
+                    <p class="text-[10px] font-bold text-orange-600 uppercase tracking-widest">11:30 特別行程</p>
+                    <h3 class="font-bold text-base">天空膠囊列車 (尾浦➔青沙浦)</h3>
+                    <p class="text-xs mt-1 text-gray-600">停留：1h。室內空間有限，需分開坐 </p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="tag tag-parent">👶 可背姿姿</span>
                     </div>
-                    <h3 class="font-bold text-lg">Dasoni Korean BBQ</h3>
-                    <p class="text-xs text-gray-500">夕陽看完後享用韓牛盛宴 。</p>
+                    <div class="mt-3"><a href="nmap://search?query=해운대블루라인파크+미포정거장" class="nav-btn"><i class="fa-solid fa-location-arrow"></i> 尾浦站導航</a></div>
+                </div>
+
+                <div class="timeline-dot"></div>
+                <div class="journal-card">
+                    <div class="card-accent bg-green-500"></div>
+                    <p class="text-[10px] font-bold text-green-600 uppercase tracking-widest">12:30 - 17:00</p>
+                    <h3 class="font-bold text-base">海岸列車 & Luge & 樂園</h3>
+                    <div class="space-y-1 mt-2">
+                        <p class="text-xs text-gray-600"><span class="tag tag-pass">🎫 PASS</span> 海岸列車至松亭站 + 海鮮拉麵午餐 (1h) </p>
+                        <p class="text-xs text-gray-600">景點：壁畫村/天空步道 (40m) ➔ 斜坡滑車 (1h) ➔ 樂天樂園 (1.5h) </p>
+                    </div>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="tag tag-parent">👶 推車可行 / 滑車不可乘坐 (成人輪顧)</span>
+                    </div>
+                </div>
+
+                <div class="timeline-dot"></div>
+                <div class="journal-card">
+                    <div class="card-accent bg-blue-700"></div>
+                    <p class="text-[10px] font-bold text-blue-700 uppercase tracking-widest">17:00 - 21:00</p>
+                    <h3 class="font-bold text-base">觀景台 ➔ 夕陽 ➔ 韓牛</h3>
+                    <p class="text-xs mt-2"><span class="tag tag-pass">🎫 PASS</span> Busan X the SKY (1h) ➔ 廣安里夕陽 (45m) </p>
+                    <div class="bg-red-50 p-2 rounded-lg mt-3">
+                        <span class="tag tag-must">🍴 晚餐：Dasoni 韓牛烤肉 (1h) </span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="day-section mb-10">
-            <h2 class="day-title text-2xl font-bold text-[#FF7F50] handwriting ml-2 italic">Day 4 甘川文化與影島</h2>
-            <div class="timeline-item">
+        <div class="mb-10">
+            <h2 class="text-xl font-bold text-[#FF7F50] border-b-4 border-[#FFF38E] inline-block mb-6 italic">Day 4：5/19 (二) 包車 ➔ 甘川/影島</h2>
+            <div class="timeline-container">
                 <div class="timeline-dot"></div>
-                <div class="journal-card p-4">
-                    <div class="flex justify-between">
-                        <span class="badge bg-pink-100 text-pink-600">體驗 / 09:30</span>
-                        <a href="nmap://search?query=감천문화마을" class="nav-btn"><i class="fa-solid fa-camera"></i></a>
+                <div class="journal-card">
+                    <div class="card-accent bg-[#4A90E2]"></div>
+                    <p class="text-[10px] font-bold text-blue-500 uppercase tracking-widest">09:30 - 12:30</p>
+                    <h3 class="font-bold text-base">甘川洞文化村 + 韓服</h3>
+                    <p class="text-xs mt-2 text-gray-600">🚐 手翻書體驗 (2h) ➔ 韓服拍照 (45m) [cite: 4]</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="tag tag-parent">👶 背巾必備 / 可抱姿姿</span>
                     </div>
-                    <h3 class="font-bold text-lg mt-1">甘川洞文化村 + 韓服體驗</h3>
-                    <p class="text-xs font-bold text-red-500 mt-1 italic">⚠️ 背巾必備！此地階梯多 [cite: 4]。</p>
+                    <div class="mt-3"><a href="nmap://search?query=감천문화마을" class="nav-btn"><i class="fa-solid fa-camera"></i> 甘川洞導航</a></div>
                 </div>
-            </div>
-            <div class="timeline-item">
+
                 <div class="timeline-dot"></div>
-                <div class="journal-card p-4">
-                    <div class="flex justify-between">
-                        <span class="badge bg-blue-100 text-blue-600">景點 / 17:00</span>
-                        <a href="nmap://search?query=영도해녀촌" class="nav-btn"><i class="fa-solid fa-anchor"></i></a>
+                <div class="journal-card">
+                    <div class="card-accent bg-teal-500"></div>
+                    <p class="text-[10px] font-bold text-teal-600 uppercase tracking-widest">12:30 - 16:30</p>
+                    <h3 class="font-bold text-base">松島纜車 & 白淺灘</h3>
+                    <p class="text-xs mt-2 text-gray-600">🍴 午餐：해물생각 (1h) ➔ <span class="tag tag-pass">🎫 PASS</span> 松島纜車 (40m) ➔ 白淺灘文化村 (1h) [cite: 4]</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="tag tag-parent">👶 可抱 / 推車可行</span>
                     </div>
-                    <h3 class="font-bold text-lg">影島海女村</h3>
-                    <p class="text-xs text-gray-500">吹海風吃現撈海鮮，部分階梯需抱姿姿 [cite: 4]。</p>
+                    <div class="bg-blue-50 p-2 rounded-lg mt-3 text-[10px] text-blue-700">
+                        ☕ Footbath Cafe 足浴咖啡廳 (45m) [cite: 4]
+                    </div>
+                </div>
+
+                <div class="timeline-dot"></div>
+                <div class="journal-card">
+                    <div class="card-accent bg-orange-700"></div>
+                    <p class="text-[10px] font-bold text-orange-700 uppercase tracking-widest">17:00 - 20:00</p>
+                    <h3 class="font-bold text-base">影島海女村 ➔ 晚餐</h3>
+                    <p class="text-xs mt-2 text-gray-600">停留：1h。部分階梯需抱 [cite: 4]</p>
+                    <div class="bg-red-50 p-2 rounded-lg mt-3">
+                        <span class="tag tag-must">🍴 晚餐：Moogsal 烤肉 (1.5h) [cite: 4]</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="day-section mb-10">
-            <h2 class="day-title text-2xl font-bold text-[#FF7F50] handwriting ml-2 italic">Day 5 退房回程</h2>
-            <div class="timeline-item">
+        <div class="mb-10">
+            <h2 class="text-xl font-bold text-[#FF7F50] border-b-4 border-[#FFF38E] inline-block mb-6 italic">Day 5：5/20 (三) 退房與回程</h2>
+            <div class="timeline-container">
                 <div class="timeline-dot"></div>
-                <div class="journal-card p-4">
-                    <div class="flex justify-between">
-                        <span class="badge bg-red-100 text-red-600">最後採買 / 11:00</span>
-                        <a href="nmap://search?query=톤쇼우" class="nav-btn"><i class="fa-solid fa-utensils"></i></a>
-                    </div>
-                    <h3 class="font-bold text-lg">豚笑 (Tonshou) 排隊炸豬排</h3>
-                    <p class="text-xs text-gray-600 italic">攻略：早起排隊或線上搶號，釜山最強豬排 [cite: 6]。</p>
+                <div class="journal-card">
+                    <div class="card-accent bg-[#4A90E2]"></div>
+                    <p class="text-[10px] font-bold text-blue-500 uppercase tracking-widest">11:00 - 17:00</p>
+                    <h3 class="font-bold text-base">退房 ➔ 豚笑豬排 ➔ 採買</h3>
+                    <p class="text-xs mt-2 text-gray-600 italic">豚笑排隊吃豬排 ➔ 自由活動/南浦洞採買 (6h) </p>
+                </div>
+
+                <div class="timeline-dot" style="border-color: #EF4444;"></div>
+                <div class="journal-card bg-red-50 border-red-200">
+                    <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest">17:00 - 20:00</p>
+                    <h3 class="font-bold text-base">民宿 ➔ 機場 ➔ 桃園</h3>
+                    <p class="text-xs mt-2 text-red-600 font-bold underline italic">20:00 飛機起飛返家！🛬 </p>
+                    <p class="text-[10px] text-gray-500 mt-1">民宿往機場車程約 1-1.5h </p>
                 </div>
             </div>
         </div>
     </main>
 
-    <section id="info" class="tab-content p-4 space-y-6">
-        <div class="journal-card p-6 bg-white border-dashed border-2">
-            <h3 class="font-bold text-xl mb-4 text-[#4A90E2]"><i class="fa-solid fa-plane"></i> 航班資訊</h3>
-            <div class="space-y-2 text-sm">
-                <p>🛫 去程：5/16 07:15 ➔ 11:15 (TPE-PUS) </p>
-                <p>🛬 回程：5/20 20:00 ➔ 21:25 (PUS-TPE) [cite: 6]</p>
-                <p>🏠 民宿：5-5 Gwangbok-ro 85beon-gil </p>
-            </div>
+    <section id="info" class="tab-content p-6">
+        <div class="journal-card p-5 border-dashed border-2 border-gray-300">
+            <h3 class="font-bold text-lg text-[#4A90E2] mb-3"><i class="fa-solid fa-hotel"></i> 住宿備忘</h3>
+            <p class="text-xs text-gray-600">📍 地址：5-5 Gwangbok-ro 85beon-gil </p>
+            <p class="text-xs text-gray-600 mt-1">🏠 房東提供機場來回接送 [cite: 1, 6]</p>
         </div>
-
-        <div class="journal-card p-6 bg-yellow-50">
-            <h3 class="font-bold text-xl mb-4 text-[#FF7F50]"><i class="fa-solid fa-calculator"></i> 記帳 & 分帳</h3>
-            <div class="space-y-3">
-                <input id="amt" type="number" placeholder="輸入韓元金額" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-[#FF7F50] outline-none">
-                <button onclick="calcSplit()" class="w-full bg-[#FF7F50] text-white p-3 rounded-xl font-bold shadow-md active:bg-orange-600">計算每人費用</button>
-                <div id="resBox" class="hidden mt-4 bg-white p-4 rounded-xl border border-orange-200 text-center">
-                    <p class="text-xs text-gray-500 italic">2人平均計算</p>
-                    <p id="res" class="text-2xl font-bold text-orange-600"></p>
-                </div>
-            </div>
-        </div>
-
-        <div class="journal-card p-6 border-red-200">
-            <h3 class="font-bold text-red-600 mb-2 underline italic"><i class="fa-solid fa-phone"></i> 緊急聯絡</h3>
-            <p class="text-sm font-bold">韓國報警：112 | 急救：119</p>
-            <p class="text-xs text-gray-500 mt-1">觀光翻譯諮詢：1330 (支援中文)</p>
+        <div class="journal-card p-5 bg-[#FFF9E3]">
+            <h3 class="font-bold text-lg text-[#B7791F] mb-4"><i class="fa-solid fa-calculator"></i> 韓元分帳 (2人平均)</h3>
+            <input id="krw" type="number" placeholder="輸入總額" class="w-full p-3 rounded-xl border-none shadow-inner mb-4 outline-none">
+            <button onclick="calculate()" class="w-full bg-[#FF7F50] text-white p-3 rounded-xl font-bold">一鍵計算</button>
+            <p id="result" class="text-center mt-4 text-xl font-bold text-[#FF7F50]"></p>
         </div>
     </section>
 
-    <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] bg-white/95 backdrop-blur-sm h-16 rounded-full shadow-2xl flex justify-around items-center px-4 z-50 border border-gray-100">
-        <button onclick="openTab('itinerary')" class="nav-item text-blue-500 flex flex-col items-center">
-            <i class="fa-solid fa-calendar-days text-xl"></i><span class="text-[10px] font-bold mt-1">行程卡</span>
+    <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] bg-white/95 backdrop-blur-md h-16 rounded-full shadow-2xl flex justify-around items-center px-6 z-50 border border-gray-100">
+        <button onclick="showTab('itinerary')" class="nav-item text-blue-500 flex flex-col items-center">
+            <i class="fa-solid fa-calendar-alt text-xl"></i>
+            <span class="text-[10px] font-bold mt-1">詳細行程</span>
         </button>
-        <button onclick="openTab('info')" class="nav-item text-gray-400 flex flex-col items-center">
-            <i class="fa-solid fa-toolbox text-xl"></i><span class="text-[10px] font-bold mt-1">工具箱</span>
+        <button onclick="showTab('info')" class="nav-item text-gray-400 flex flex-col items-center">
+            <i class="fa-solid fa-toolbox text-xl"></i>
+            <span class="text-[10px] font-bold mt-1">旅遊工具</span>
         </button>
     </nav>
 
     <script>
-        function openTab(id) {
+        function showTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
             window.scrollTo(0, 0);
             
-            // 更新導航顏色
             document.querySelectorAll('.nav-item').forEach(btn => btn.classList.replace('text-blue-500', 'text-gray-400'));
             event.currentTarget.classList.replace('text-gray-400', 'text-blue-500');
         }
 
-        function calcSplit() {
-            const val = document.getElementById('amt').value;
+        function calculate() {
+            const val = document.getElementById('krw').value;
             if(!val) return;
-            document.getElementById('resBox').classList.remove('hidden');
-            const split = Math.round(val / 2);
-            document.getElementById('res').innerText = `₩ ${split.toLocaleString()}`;
+            const res = Math.round(val / 2);
+            document.getElementById('result').innerText = `每人：₩ ${res.toLocaleString()}`;
         }
     </script>
 </body>
