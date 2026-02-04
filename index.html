@@ -3,221 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>釜山旅遊手帳 2026</title>
+    <title>釜山旅遊隨身小幫手</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --sea-blue: #4A90E2;
-            --coral-orange: #FF7F50;
-            --butter-yellow: #FFF9E3;
-            --journal-bg: #FDFBF7;
-        }
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--journal-bg); color: #444; }
+        :root { --sea-blue: #4A90E2; --coral-orange: #FF7F50; --journal-bg: #FDFBF7; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--journal-bg); color: #444; overflow-x: hidden; }
         .handwriting { font-family: 'Zhi Mang Xing', cursive; }
-        .tab-content { display: none; }
+        .tab-content { display: none; padding-bottom: 120px; }
         .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        /* 手帳風卡片 */
-        .journal-card {
-            background: white;
-            border-radius: 20px;
-            border: 2px solid #EEE;
-            box-shadow: 5px 5px 0px #EEE;
-            position: relative;
-            overflow: hidden;
-        }
-        .journal-card::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 6px; height: 100%;
-            background: var(--sea-blue);
-        }
-        .tag-essential { background-color: #FFE4E1; color: #E91E63; font-weight: bold; border-radius: 4px; padding: 2px 6px; font-size: 0.75rem; }
-        .nav-btn { background: var(--sea-blue); color: white; border-radius: 50%; width: 36px; height: 36px; display: flex; items-center; justify-content: center; }
-        .sticky-note { background: #FFFACD; transform: rotate(-1deg); box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
-        .timeline-line { border-left: 2px dashed #CCC; margin-left: 10px; }
+        .journal-card { background: white; border-radius: 20px; border: 2px solid #EEE; box-shadow: 4px 4px 0px #EEE; position: relative; margin-bottom: 24px; transition: 0.2s; }
+        .journal-card:active { transform: scale(0.98); }
+        .journal-card::before { content: ""; position: absolute; top: 0; left: 0; width: 6px; height: 100%; border-radius: 20px 0 0 20px; }
+        .day-title { border-bottom: 2px dashed #DDD; padding-bottom: 10px; margin-bottom: 20px; }
+        .nav-btn { background: var(--sea-blue); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3); }
+        .timeline-item { position: relative; padding-left: 28px; border-left: 2px dashed #CCC; margin-left: 10px; }
+        .timeline-dot { position: absolute; left: -9px; top: 8px; width: 16px; height: 16px; background: white; border: 3px solid var(--sea-blue); border-radius: 50%; }
+        .badge { font-size: 10px; font-weight: bold; padding: 2px 8px; border-radius: 12px; margin-right: 4px; }
     </style>
 </head>
-<body class="pb-24">
+<body>
 
-    <header class="p-6 bg-[#4A90E2] text-white rounded-b-[40px] shadow-lg relative overflow-hidden">
-        <div class="relative z-10">
-            <h1 class="text-3xl font-bold handwriting">Busan Trip 🇰🇷</h1>
-            <p class="text-sm opacity-90">2026 / 05.16 - 05.20</p>
+    <header class="p-6 bg-[#4A90E2] text-white rounded-b-[40px] shadow-lg sticky top-0 z-50">
+        <div class="flex justify-between items-end">
+            <div>
+                <h1 class="text-3xl font-bold handwriting">Busan Trip 🇰🇷</h1>
+                <p class="text-xs opacity-90 mt-1">2026.05.16 - 05.20</p>
+            </div>
+            <div class="text-right">
+                <p class="text-[10px] tracking-widest opacity-80 uppercase">Today's Weather</p>
+                <div class="text-2xl font-bold">☀️ 22°C</div>
+            </div>
         </div>
-        <div class="absolute top-4 right-6 text-right z-10">
-            <div class="text-2xl font-bold">☀️ 21°C</div>
-            <p class="text-[10px] uppercase tracking-widest">Sunny Day</p>
-        </div>
-        <div class="absolute -bottom-4 -right-4 opacity-20 text-8xl"><i class="fa-solid fa-anchor"></i></div>
     </header>
 
-    <main id="itinerary" class="tab-content active p-4 space-y-8">
+    <main id="itinerary" class="tab-content active p-4 mt-2">
         
-        <section>
-            <div class="flex items-baseline space-x-2 mb-4">
-                <span class="text-4xl font-bold text-[#FF7F50] handwriting">01</span>
-                <h2 class="text-xl font-bold">5/16 (六) 西面熱鬧夜</h2>
-                <span class="text-xs bg-gray-200 px-2 py-0.5 rounded text-gray-600">不包車</span>
-            </div>
-
-            <div class="timeline-line pl-6 space-y-6">
-                <div class="relative">
-                    <div class="absolute -left-[31px] bg-white border-2 border-[#4A90E2] w-4 h-4 rounded-full"></div>
-                    <div class="journal-card p-4">
-                        <div class="flex justify-between items-start">
-                            <span class="text-xs font-bold text-blue-500 uppercase">AM 11:15 抵達</span>
-                            <div class="flex space-x-2">
-                                <a href="nmap://search?query=Gwangbok-ro+85beon-gil" class="nav-btn"><i class="fa-solid fa-location-arrow text-sm"></i></a>
-                            </div>
-                        </div>
-                        <h3 class="font-bold text-lg mt-1">釜山機場 ➔ 民宿 </h3>
-                        <p class="text-sm text-gray-500 mt-2">🚌 房東接送 (約2小時) </p>
-                        <div class="mt-2 bg-blue-50 p-2 rounded text-xs text-blue-700">
-                            👶 <b>親子備註：</b> 車程長可補眠，抵達後可餵奶。 
-                        </div>
-                    </div>
-                </div>
-
-                <div class="relative">
-                    <div class="absolute -left-[31px] bg-white border-2 border-[#FF7F50] w-4 h-4 rounded-full"></div>
-                    <div class="journal-card p-4">
-                        <div class="flex justify-between">
-                            <span class="tag-essential">必吃美食</span>
-                            <a href="nmap://search?query=83해치" class="nav-btn"><i class="fa-solid fa-location-arrow text-sm"></i></a>
-                        </div>
-                        <h3 class="font-bold text-lg mt-1 underline decoration-[#FF7F50]">83 獬豸 (烤肉) </h3>
-                        <p class="text-sm text-gray-600 mt-2 italic">「西面排隊之王，肉質鮮嫩！」</p>
-                        <div class="mt-2 space-y-1">
-                            <p class="text-xs">📍 <b>攻略：</b> 需先排隊或使用 **CATCHTABLE** 預約。 </p>
-                            <p class="text-xs">🔥 <b>必點：</b> **熟成五花肉、烤豬皮**。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <div class="flex items-baseline space-x-2 mb-4">
-                <span class="text-4xl font-bold text-[#4A90E2] handwriting">03</span>
-                <h2 class="text-xl font-bold">5/18 (一) 東釜山海線</h2>
-                <span class="text-xs bg-blue-500 px-2 py-0.5 rounded text-white font-bold">🚐 包車 9H</span>
-            </div>
+        <div class="day-section mb-10">
+            <h2 class="day-title text-2xl font-bold text-[#FF7F50] handwriting ml-2 italic">Day 1 西面熱鬧夜</h2>
             
-            <div class="timeline-line pl-6 space-y-6">
-                <div class="journal-card p-4 bg-blue-50/50">
-                    <div class="flex justify-between">
-                        <span class="text-xs font-bold text-indigo-600 uppercase">AM 11:30 亮點行程</span>
-                        <a href="nmap://search?query=해운대블루라인파크" class="nav-btn bg-indigo-500"><i class="fa-solid fa-train-subway text-sm"></i></a>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="journal-card p-4" style="border-left: 6px solid #4A90E2;">
+                    <div class="flex justify-between items-start">
+                        <span class="text-[10px] font-bold text-blue-500 uppercase tracking-tighter">11:15 - 13:15 機場抵達</span>
+                        <a href="nmap://search?query=Gwangbok-ro+85beon-gil" class="nav-btn"><i class="fa-solid fa-car-side"></i></a>
                     </div>
-                    <h3 class="font-bold text-lg mt-1">天空膠囊列車 </h3>
-                    <p class="text-sm mt-1">尾浦 ➔ 青沙浦 </p>
-                    <div class="mt-2 sticky-note p-2 text-xs">
-                        📌 <b>重要預約代號：</b> <span class="bg-yellow-400 px-1">請填入憑證號碼</span><br>
-                        👶 姿姿可背著乘坐，推車需收摺。 
-                    </div>
-                    <div class="mt-2 text-xs font-bold text-indigo-700">
-                        🎁 <b>必買伴手禮：</b> **Busan BADA SAND** 海雲台店。 
+                    <h3 class="font-bold text-lg">民宿 check-in (房東接送)</h3>
+                    <p class="text-xs text-gray-500 mt-1">📍 5-5 Gwangbok-ro 85beon-gil </p>
+                    <div class="mt-2 text-[11px] bg-yellow-50 p-2 border-l-4 border-yellow-400">
+                        👶 **親子攻略**：車程長，姿姿可補眠/餵奶 。
                     </div>
                 </div>
             </div>
-        </section>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="journal-card p-4" style="border-left: 6px solid #FF7F50;">
+                    <div class="flex justify-between items-start">
+                        <span class="badge bg-red-100 text-red-600">必吃美食</span>
+                        <a href="nmap://search?query=83해치" class="nav-btn"><i class="fa-solid fa-utensils"></i></a>
+                    </div>
+                    <h3 class="font-bold text-lg mt-1 underline decoration-red-200 decoration-2">83 獬豸 (83해치) 烤肉</h3>
+                    <p class="text-xs text-gray-600 mt-2 italic">「釜山西面最強烤肉，推薦熟成五花肉」</p>
+                    <p class="text-xs font-bold text-blue-600 mt-1">💡 攻略：下午16:00開，建議用 CATCHTABLE 排隊 。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="day-section mb-10">
+            <h2 class="day-title text-2xl font-bold text-[#FF7F50] handwriting ml-2 italic">Day 2 南浦與新世界</h2>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="journal-card p-4">
+                    <div class="flex justify-between items-start">
+                        <span class="badge bg-orange-100 text-orange-600">市場尋寶</span>
+                        <a href="nmap://search?query=자갈치시장" class="nav-btn"><i class="fa-solid fa-store"></i></a>
+                    </div>
+                    <h3 class="font-bold text-lg mt-1">札嘎其市場 + 帝王蟹</h3>
+                    <p class="text-xs text-red-500 font-bold mt-1 italic">👶 揹巾必備：地面濕滑注意 [cite: 2]。</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="journal-card p-4">
+                    <div class="flex justify-between items-start">
+                        <span class="badge bg-purple-100 text-purple-600">購物/汗蒸幕</span>
+                        <a href="nmap://search?query=신세계백화점+센텀시티" class="nav-btn"><i class="fa-solid fa-bag-shopping"></i></a>
+                    </div>
+                    <h3 class="font-bold text-lg mt-1">新世界百貨 Centum City</h3>
+                    <p class="text-xs text-gray-500">哺乳室、電梯齊全，對幼童極度友善 [cite: 2]。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="day-section mb-10">
+            <h2 class="day-title text-2xl font-bold text-[#FF7F50] handwriting ml-2 italic">Day 3 海雲台東釜山 (🚐)</h2>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="journal-card p-4" style="border-left: 6px solid #4A90E2; background-color: #F0F7FF;">
+                    <div class="flex justify-between">
+                        <span class="badge bg-blue-500 text-white italic">預約行程 / 11:30</span>
+                        <a href="nmap://search?query=해운대블루라인파크+미포정거장" class="nav-btn"><i class="fa-solid fa-train-subway"></i></a>
+                    </div>
+                    <h3 class="font-bold text-lg mt-1">天空膠囊列車 (尾浦➔青沙浦)</h3>
+                    <p class="text-xs font-bold text-orange-600 mt-1">🎁 必買：Busan BADA SAND 伴手禮 。</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="journal-card p-4">
+                    <div class="flex justify-between">
+                        <span class="badge bg-green-100 text-green-600">韓牛烤肉 / 20:00</span>
+                        <a href="nmap://search?query=다소니" class="nav-btn"><i class="fa-solid fa-utensils"></i></a>
+                    </div>
+                    <h3 class="font-bold text-lg">Dasoni Korean BBQ</h3>
+                    <p class="text-xs text-gray-500">夕陽看完後享用韓牛盛宴 。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="day-section mb-10">
+            <h2 class="day-title text-2xl font-bold text-[#FF7F50] handwriting ml-2 italic">Day 4 甘川文化與影島</h2>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="journal-card p-4">
+                    <div class="flex justify-between">
+                        <span class="badge bg-pink-100 text-pink-600">體驗 / 09:30</span>
+                        <a href="nmap://search?query=감천문화마을" class="nav-btn"><i class="fa-solid fa-camera"></i></a>
+                    </div>
+                    <h3 class="font-bold text-lg mt-1">甘川洞文化村 + 韓服體驗</h3>
+                    <p class="text-xs font-bold text-red-500 mt-1 italic">⚠️ 背巾必備！此地階梯多 [cite: 4]。</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="journal-card p-4">
+                    <div class="flex justify-between">
+                        <span class="badge bg-blue-100 text-blue-600">景點 / 17:00</span>
+                        <a href="nmap://search?query=영도해녀촌" class="nav-btn"><i class="fa-solid fa-anchor"></i></a>
+                    </div>
+                    <h3 class="font-bold text-lg">影島海女村</h3>
+                    <p class="text-xs text-gray-500">吹海風吃現撈海鮮，部分階梯需抱姿姿 [cite: 4]。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="day-section mb-10">
+            <h2 class="day-title text-2xl font-bold text-[#FF7F50] handwriting ml-2 italic">Day 5 退房回程</h2>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="journal-card p-4">
+                    <div class="flex justify-between">
+                        <span class="badge bg-red-100 text-red-600">最後採買 / 11:00</span>
+                        <a href="nmap://search?query=톤쇼우" class="nav-btn"><i class="fa-solid fa-utensils"></i></a>
+                    </div>
+                    <h3 class="font-bold text-lg">豚笑 (Tonshou) 排隊炸豬排</h3>
+                    <p class="text-xs text-gray-600 italic">攻略：早起排隊或線上搶號，釜山最強豬排 [cite: 6]。</p>
+                </div>
+            </div>
+        </div>
     </main>
 
-    <div id="info" class="tab-content p-4 space-y-4">
-        <h2 class="text-2xl font-bold handwriting text-[#4A90E2] mb-6">備忘錄 & 工具</h2>
-        
-        <div class="journal-card p-4">
-            <h3 class="font-bold border-b-2 border-dashed border-gray-200 pb-2 mb-3"><i class="fa-solid fa-plane"></i> 航班 & 住宿 [cite: 1, 6]</h3>
-            <div class="text-sm space-y-2">
-                <p>✈️ <b>去程：</b> 05/16 07:15 桃園機場 </p>
-                <p>✈️ <b>回程：</b> 05/20 20:00 釜山機場 [cite: 6]</p>
-                <p>🏠 <b>住宿：</b> 5-5 Gwangbok-ro 85beon-gil </p>
+    <section id="info" class="tab-content p-4 space-y-6">
+        <div class="journal-card p-6 bg-white border-dashed border-2">
+            <h3 class="font-bold text-xl mb-4 text-[#4A90E2]"><i class="fa-solid fa-plane"></i> 航班資訊</h3>
+            <div class="space-y-2 text-sm">
+                <p>🛫 去程：5/16 07:15 ➔ 11:15 (TPE-PUS) </p>
+                <p>🛬 回程：5/20 20:00 ➔ 21:25 (PUS-TPE) [cite: 6]</p>
+                <p>🏠 民宿：5-5 Gwangbok-ro 85beon-gil </p>
             </div>
         </div>
 
-        <div class="journal-card p-4 bg-red-50">
-            <h3 class="font-bold text-red-600 mb-2 underline">緊急聯絡</h3>
-            <p class="text-sm font-bold">📞 韓國報警：112 | 急救：119</p>
-            <p class="text-sm mt-1">📞 觀光諮詢：1330 (支援中文)</p>
-        </div>
-    </div>
-
-    <div id="finance" class="tab-content p-4">
-        <h2 class="text-2xl font-bold handwriting text-[#FF7F50] mb-6">記帳與分帳</h2>
-        <div class="journal-card p-6">
-            <div class="text-center mb-6">
-                <p class="text-xs text-gray-500 uppercase">Total Spent</p>
-                <p id="totalSpent" class="text-4xl font-bold text-[#FF7F50]">₩0</p>
-            </div>
-            
-            <div id="expenseList" class="space-y-3 mb-6">
+        <div class="journal-card p-6 bg-yellow-50">
+            <h3 class="font-bold text-xl mb-4 text-[#FF7F50]"><i class="fa-solid fa-calculator"></i> 記帳 & 分帳</h3>
+            <div class="space-y-3">
+                <input id="amt" type="number" placeholder="輸入韓元金額" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-[#FF7F50] outline-none">
+                <button onclick="calcSplit()" class="w-full bg-[#FF7F50] text-white p-3 rounded-xl font-bold shadow-md active:bg-orange-600">計算每人費用</button>
+                <div id="resBox" class="hidden mt-4 bg-white p-4 rounded-xl border border-orange-200 text-center">
+                    <p class="text-xs text-gray-500 italic">2人平均計算</p>
+                    <p id="res" class="text-2xl font-bold text-orange-600"></p>
                 </div>
-
-            <div class="space-y-3 bg-gray-50 p-4 rounded-xl">
-                <input id="expDesc" type="text" placeholder="項目 (例如: 83烤肉)" class="w-full p-2 border rounded-lg text-sm">
-                <input id="expAmount" type="number" placeholder="金額 (KRW)" class="w-full p-2 border rounded-lg text-sm">
-                <button onclick="addExpense()" class="w-full bg-[#FF7F50] text-white py-3 rounded-xl font-bold shadow-md">記一筆</button>
-            </div>
-
-            <div class="mt-6 border-t pt-4">
-                <h4 class="font-bold text-sm mb-2">👫 分帳計算 (平均每人)</h4>
-                <p id="splitAmount" class="text-lg font-bold text-gray-700">₩0</p>
             </div>
         </div>
-    </div>
 
-    <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] bg-white/90 backdrop-blur-md h-16 rounded-full shadow-2xl flex justify-around items-center px-4 z-50 border border-white/50">
-        <button onclick="showTab('itinerary')" class="nav-item text-blue-500 flex flex-col items-center">
-            <i class="fa-solid fa-map-location-dot"></i><span class="text-[10px] font-bold">行程</span>
+        <div class="journal-card p-6 border-red-200">
+            <h3 class="font-bold text-red-600 mb-2 underline italic"><i class="fa-solid fa-phone"></i> 緊急聯絡</h3>
+            <p class="text-sm font-bold">韓國報警：112 | 急救：119</p>
+            <p class="text-xs text-gray-500 mt-1">觀光翻譯諮詢：1330 (支援中文)</p>
+        </div>
+    </section>
+
+    <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] bg-white/95 backdrop-blur-sm h-16 rounded-full shadow-2xl flex justify-around items-center px-4 z-50 border border-gray-100">
+        <button onclick="openTab('itinerary')" class="nav-item text-blue-500 flex flex-col items-center">
+            <i class="fa-solid fa-calendar-days text-xl"></i><span class="text-[10px] font-bold mt-1">行程卡</span>
         </button>
-        <button onclick="showTab('info')" class="nav-item text-gray-400 flex flex-col items-center">
-            <i class="fa-solid fa-suitcase"></i><span class="text-[10px] font-bold">工具</span>
-        </button>
-        <button onclick="showTab('finance')" class="nav-item text-gray-400 flex flex-col items-center">
-            <i class="fa-solid fa-wallet"></i><span class="text-[10px] font-bold">分帳</span>
+        <button onclick="openTab('info')" class="nav-item text-gray-400 flex flex-col items-center">
+            <i class="fa-solid fa-toolbox text-xl"></i><span class="text-[10px] font-bold mt-1">工具箱</span>
         </button>
     </nav>
 
     <script>
-        // Tab 切換
-        function showTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.replace('text-blue-500', 'text-gray-400'));
+        function openTab(id) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0, 0);
+            
+            // 更新導航顏色
+            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.replace('text-blue-500', 'text-gray-400'));
             event.currentTarget.classList.replace('text-gray-400', 'text-blue-500');
         }
 
-        // 簡易記帳功能
-        let expenses = [];
-        function addExpense() {
-            const desc = document.getElementById('expDesc').value;
-            const amount = parseFloat(document.getElementById('expAmount').value);
-            if (!desc || !amount) return;
-
-            expenses.push({ desc, amount });
-            updateUI();
-            document.getElementById('expDesc').value = '';
-            document.getElementById('expAmount').value = '';
-        }
-
-        function updateUI() {
-            const list = document.getElementById('expenseList');
-            const totalDisplay = document.getElementById('totalSpent');
-            const splitDisplay = document.getElementById('splitAmount');
-            
-            list.innerHTML = '';
-            let total = 0;
-            expenses.forEach(exp => {
-                total += exp.amount;
-                list.innerHTML += `<div class="flex justify-between text-sm border-b pb-1"><span>${exp.desc}</span><span class="font-bold">₩${exp.amount.toLocaleString()}</span></div>`;
-            });
-
-            totalDisplay.innerText = `₩${total.toLocaleString()}`;
-            splitDisplay.innerText = `₩${(total / 2).toLocaleString()}`; // 預設兩人分帳
+        function calcSplit() {
+            const val = document.getElementById('amt').value;
+            if(!val) return;
+            document.getElementById('resBox').classList.remove('hidden');
+            const split = Math.round(val / 2);
+            document.getElementById('res').innerText = `₩ ${split.toLocaleString()}`;
         }
     </script>
 </body>
