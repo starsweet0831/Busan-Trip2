@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>姿姿釜山旅遊手帳</title>
+    <title>欣路旅程旅行團 | 曾有趣</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -14,14 +14,12 @@
         }
         body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--sand); color: #334155; margin: 0; padding-bottom: 120px; -webkit-tap-highlight-color: transparent; }
         
-        /* 頂部 Header */
         .app-header {
             background: linear-gradient(135deg, var(--sea), var(--sky));
             padding: 55px 24px 35px; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px;
             color: white; position: sticky; top: -10px; z-index: 100; box-shadow: 0 10px 25px rgba(0,119,182,0.15);
         }
 
-        /* 動態氣象按鈕 */
         .weather-btn {
             background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(12px); border-radius: 18px;
             padding: 12px 18px; display: flex; justify-content: space-between; align-items: center;
@@ -29,11 +27,9 @@
             font-size: 14px; font-weight: 700; transition: 0.3s;
         }
 
-        /* 頁面切換 */
         .day-page { display: none; padding: 20px 16px; animation: slideUp 0.4s ease-out; }
         .day-page.active { display: block; }
 
-        /* 卡片設計 */
         .card { 
             background: white; border-radius: 28px; padding: 22px; margin-bottom: 20px; 
             box-shadow: 0 8px 20px rgba(0,0,0,0.04); border: 1px solid rgba(255,255,255,0.7);
@@ -50,11 +46,9 @@
         .tag { padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 800; display: flex; align-items: center; gap: 4px; }
         .tag-trans { background: #F1F5F9; color: #475569; }
         .tag-pass { background: #FFE4E6; color: #E11D48; }
-        .tag-memo { background: #F0FDFA; color: #0D9488; }
 
         .memo-content { font-size: 14.5px; color: #64748B; margin-top: 8px; line-height: 1.6; padding-top: 10px; border-top: 1px dashed #E2E8F0; }
         
-        /* 親子專區 */
         .baby-card { 
             background: #FFF9F0; border-radius: 18px; padding: 15px; margin-top: 15px; 
             border-left: 6px solid var(--coral); color: #9A3412; font-size: 14px; 
@@ -67,7 +61,11 @@
             margin-top: 15px; text-decoration: none; transition: 0.2s;
         }
 
-        /* 導航 */
+        /* 規定清單樣式 */
+        .rule-list { list-style: none; padding: 0; }
+        .rule-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; font-weight: 600; line-height: 1.5; }
+        .rule-num { background: var(--coral); color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; margin-top: 2px; }
+
         nav {
             position: fixed; bottom: 20px; left: 15px; right: 15px;
             background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px);
@@ -76,8 +74,8 @@
         }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; color: #CBD5E0; border: none; background: none; transition: 0.3s; }
         .nav-item.active { color: var(--sea); transform: translateY(-5px); }
-        .nav-item i { font-size: 22px; margin-bottom: 4px; }
-        .nav-item span { font-size: 11px; font-weight: 900; }
+        .nav-item i { font-size: 20px; margin-bottom: 4px; }
+        .nav-item span { font-size: 10px; font-weight: 900; }
 
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -85,15 +83,68 @@
 <body>
 
 <div class="app-header">
-    <h1 class="text-2xl font-black tracking-tight">釜山手帳 Busan Voyage 🐚</h1>
-    <p id="day-display" class="font-bold opacity-90 text-sm mt-1">5/16（六）｜ DAY 1 抵達＋西面</p>
+    <h1 class="text-2xl font-black tracking-tight">欣路旅程旅行團 | 釜山篇 🐚</h1>
+    <p id="day-display" class="font-bold opacity-90 text-sm mt-1">航班及重要資訊</p>
     <a href="https://m.weather.naver.com/today/08110" target="_blank" class="weather-btn">
         <span><i class="fa-solid fa-sun-cloud mr-2"></i> 釜山即時氣象 (Naver)</span>
         <i class="fa-solid fa-chevron-right text-[10px]"></i>
     </a>
 </div>
 
-<div id="day1" class="day-page active">
+<div id="day0" class="day-page active">
+    <div class="card border-t-8 border-t-sky-500">
+        <div class="time-box">
+            <span class="time-txt"><i class="fa-solid fa-plane"></i> 航班資訊</span>
+            <span class="stay-tag">China Airlines</span>
+        </div>
+        <div class="space-y-6 mt-4">
+            <div class="flex justify-between items-center bg-sky-50 p-4 rounded-2xl">
+                <div class="text-center">
+                    <p class="text-xs font-bold text-sky-600">5/16 TPE</p>
+                    <p class="text-lg font-black">07:15</p>
+                    <p class="text-[10px] text-gray-500">第一航廈</p>
+                </div>
+                <i class="fa-solid fa-arrow-right text-sky-300"></i>
+                <div class="text-center">
+                    <p class="text-xs font-bold text-sky-600">PUS</p>
+                    <p class="text-lg font-black">11:15</p>
+                    <p class="text-[10px] text-gray-500">釜山機場</p>
+                </div>
+            </div>
+            <div class="flex justify-between items-center bg-orange-50 p-4 rounded-2xl">
+                <div class="text-center">
+                    <p class="text-xs font-bold text-orange-600">5/20 PUS</p>
+                    <p class="text-lg font-black">20:00</p>
+                    <p class="text-[10px] text-gray-500">釜山機場</p>
+                </div>
+                <i class="fa-solid fa-arrow-right text-orange-300"></i>
+                <div class="text-center">
+                    <p class="text-xs font-bold text-orange-600">TPE</p>
+                    <p class="text-lg font-black">21:25</p>
+                    <p class="text-[10px] text-gray-500">第一航廈</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="time-box">
+            <span class="time-txt" style="color:var(--coral)"><i class="fa-solid fa-circle-exclamation"></i> 旅遊規定</span>
+        </div>
+        <ul class="rule-list mt-4">
+            <li class="rule-item"><span class="rule-num">1</span>一天只能提出三個問題</li>
+            <li class="rule-item"><span class="rule-num">2</span>不准問下一站要去哪行程都傳給大家了</li>
+            <li class="rule-item"><span class="rule-num">3</span>不想去可脫隊，自行解決自己要去的地方</li>
+            <li class="rule-item"><span class="rule-num">4</span>不准抱怨行程</li>
+            <li class="rule-item"><span class="rule-num">5</span>不准機機歪歪</li>
+            <li class="rule-item"><span class="rule-num">6</span>集合時間請準時，超過10分鐘就掰掰</li>
+            <li class="rule-item"><span class="rule-num">7</span>照顧姿姿 注意姿姿 保護姿姿</li>
+            <li class="rule-item"><span class="rule-num">8</span>自己的東西保管好尤其是護照，不見自己想辦法</li>
+        </ul>
+    </div>
+</div>
+
+<div id="day1" class="day-page">
     <div class="card">
         <div class="time-box"><span class="time-txt"><i class="fa-regular fa-clock"></i> 05:00</span></div>
         <div class="spot-title">桃園機場集合</div>
@@ -394,7 +445,8 @@
 </div>
 
 <nav>
-    <button onclick="st(1)" id="b1" class="nav-item active"><i class="fa-solid fa-1"></i><span>DAY 1</span></button>
+    <button onclick="st(0)" id="b0" class="nav-item active"><i class="fa-solid fa-circle-info"></i><span>資訊</span></button>
+    <button onclick="st(1)" id="b1" class="nav-item"><i class="fa-solid fa-1"></i><span>DAY 1</span></button>
     <button onclick="st(2)" id="b2" class="nav-item"><i class="fa-solid fa-2"></i><span>DAY 2</span></button>
     <button onclick="st(3)" id="b3" class="nav-item"><i class="fa-solid fa-3"></i><span>DAY 3</span></button>
     <button onclick="st(4)" id="b4" class="nav-item"><i class="fa-solid fa-4"></i><span>DAY 4</span></button>
@@ -403,6 +455,7 @@
 
 <script>
     const days = [
+        "航班及重要資訊",
         "5/16（六）｜ DAY 1 抵達＋西面",
         "5/17（日）｜ DAY 2 南浦洞・市場",
         "5/18（一）｜ DAY 3 海雲台・東釜山",
@@ -414,7 +467,7 @@
         document.getElementById('day' + n).classList.add('active');
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         document.getElementById('b' + n).classList.add('active');
-        document.getElementById('day-display').innerText = days[n-1];
+        document.getElementById('day-display').innerText = days[n];
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 </script>
